@@ -139,8 +139,6 @@ const imageCapture = () => {
       pageWrapper: '.row',
       padding: 5,
       devStyle: false,
-      // pageHeight: 612,
-      // pageWidth: 792,
       pageHeight: null,
       pageWidth: null,
       pageUnits: 'pt'

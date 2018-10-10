@@ -4,7 +4,11 @@
 
 > WIP A component to converts DOM elements and charts to JPG, PNG or PDFs.
 
-Initially concieved as a vue directive, rewriting for commonJS.
+This JS package aims to truthfully and easily convert anything that is rendered in the browser to a raster image for download. It works excellent with HighCharts and other SVG rendered graphics.
+
+Initially conceived to be a vueJS directive, I'm publishing the first version as a generic JS package to get feedback while building a more integrated vue solution.
+
+Any feedback is welcome!
 
 ## Installation
 
@@ -12,17 +16,10 @@ Initially concieved as a vue directive, rewriting for commonJS.
 npm install --save vue-2-img
 ```
 
-## Usage
-
 ### Bundler (Webpack, Rollup)
 
 ```js
-import Vue from 'vue'
 import Vue2Img from 'vue-2-img'
-// You need a specific loader for CSS files like https://github.com/webpack/css-loader
-import 'vue-2-img/dist/vue-2-img.css'
-
-Vue.use(Vue2Img)
 ```
 
 ### Browser
@@ -30,7 +27,6 @@ Vue.use(Vue2Img)
 ```html
 <!-- Include after Vue -->
 <!-- Local files -->
-<link rel="stylesheet" href="vue-2-img/dist/vue-2-img.css"></link>
 <script src="vue-2-img/dist/vue-2-img.js"></script>
 
 <!-- From CDN -->
@@ -38,43 +34,52 @@ Vue.use(Vue2Img)
 <script src="https://unpkg.com/vue-2-img"></script>
 ```
 
-## Development
+## Usage
 
-### Launch visual tests
+```js
+// Single Image
+imageCapture().pdf()
 
-```bash
-npm run dev
+// Overide Defaults
+let pdfImg = {
+    target: 'body',
+    captureHiddenClass: 'hic-hidden',
+    captureShowClass: 'hic-show',
+    captureActiveClass: 'hic-active',
+    fileName: 'ImageCapture',
+    fileType: 'png'
+}
+imageCapture().pdf(pdfImg)
+
+// Multipage PDF
+imageCapture().pdf(pdfConfig)
+
+// Overide Defaults
+let pdfConfig = {
+      target: 'body',
+      pageTarget: '.pageTarget',
+      captureHiddenClass: 'hic-hidden',
+      captureShowClass: 'hic-show',
+      captureActiveClass: 'hic-active',
+      title: 'pdfCapture',
+      author: 'html-image-capture-service',
+      maxItems: 50,
+      fileNameSuffix: getDate(),
+      pageWrapper: '.row',
+      padding: 5,
+      devStyle: false,
+      pageHeight: null, // 612 for letter
+      pageWidth: null, // 792 for letter
+      pageUnits: 'pt'
+}
+imageCapture().pdf(pdfConfig)
 ```
 
-### Launch Karma with coverage
+## TODO
 
-```bash
-npm run dev:coverage
-```
-
-### Build
-
-Bundle the js and css of to the `dist` folder:
-
-```bash
-npm run build
-```
-
-
-## Publishing
-
-The `prepublish` hook will ensure dist files are created before publishing. This
-way you don't need to commit them in your repository.
-
-```bash
-# Bump the version first
-# It'll also commit it and create a tag
-npm version
-# Push the bumped package and tags
-git push --follow-tags
-# Ship it 🚀
-npm publish
-```
+- VUEJS directive/component
+- Tests
+- Rewrite to ES6 and lodash (not jQuery)
 
 ## License
 
