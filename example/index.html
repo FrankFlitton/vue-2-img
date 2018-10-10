@@ -20,13 +20,17 @@
     </style>
 </head>
 <body>
+
     <div class="pageTarget">
+        <h1>Bar Chart Example</h1>
         <div
             class="chart"
             id="container1"
         ></div>
     </div>
+
     <div class="pageTarget">
+        <h1>Pie Chart Example</h1>
         <div
             class="chart"
             id="container2"
@@ -37,8 +41,6 @@
         Wait for auto export.
     </p>
 
-    <script src="./chart1.js"></script>
-    <script src="./chart2.js"></script>
     <script>
         // Build Chart 1
         $.getJSON('https://cdn.rawgit.com/highcharts/highcharts/057b672172ccc6c08fe7dbb27fc17ebca3f5b770/samples/data/usdeur.json', function (data) {
