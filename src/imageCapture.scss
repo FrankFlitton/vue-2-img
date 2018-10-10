@@ -1,0 +1,85 @@
+.vti__progressCapture {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.vti__active {
+  .vti__progressCapture {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(90deg, #499ef5, #22dae3, #3de5b7, #adfbcc);
+    z-index: 99999;
+    box-sizing: border-box;
+    border: black 45px solid;
+    border-radius: 65px;
+    opacity: 1;
+    &::after {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      z-index: 9999;
+      background: black;
+    }
+    &::before {
+        content: "Rendering Document";
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 999999;
+        height: 100%;
+        width: 100%;
+        color: white;
+        font-size: 45px;
+        padding-top: 45vh;
+        text-align: center;
+        font-family: Helvetica, Arial;
+        white-space: pre;
+        animation-duration: 5s;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+        animation-name: vti__loadingMessage;
+    }
+    .vti__progressBar {
+      position: absolute;
+      top:  0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+      background: black;
+      transition: width 0.5s ease;
+    }
+  }
+  .vti__hidden {
+    display: none !important;
+  }
+  .vti__show {
+    display: inherit !important;
+  }
+}
+
+.vti__hidden {
+  display: inherit !important;
+}
+.vti__show {
+  display: none !important;
+}
+
+@keyframes vti__loadingMessage {
+  0%, 100% {
+    content: "Rendering Document \A ";
+  }
+  25% {
+    content: "Rendering Document \A .";
+  }
+  50% {
+    content: "Rendering Document \A ..";
+  }
+  75% {
+    content: "Rendering Document \A ...";
+  }
+}

@@ -1,4 +1,5 @@
 import imageCapture from './imageCapture.js'
+import './imageCapture.scss'
 // function plugin (Vue) {
 //   Vue.component('hello', Hello)
 //   Vue.component('hello-jsx', HelloJsx)

@@ -1,6 +1,6 @@
 {
   "name": "vue-2-img",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "WIP A component to converts DOM elements and charts to JPG, PNG or PDFs.",
   "author": "Frank Flitton <fflitton@gmail.com>",
   "main": "dist/vue-2-img.common.js",
@@ -138,6 +138,8 @@
     "html2canvas": "^1.0.0-alpha.12",
     "jquery": "^3.3.1",
     "jspdf": "^1.4.1",
+    "node-sass": "^4.9.3",
+    "sass-loader": "^7.1.0",
     "stackblur-canvas": "^1.4.1"
   }
 }

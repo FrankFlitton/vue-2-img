@@ -20,6 +20,7 @@ npm install --save vue-2-img
 
 ```js
 import Vue2Img from 'vue-2-img'
+import 'vue-2-img/dist/vue-2-img.css'
 ```
 
 ### Browser
@@ -28,6 +29,7 @@ import Vue2Img from 'vue-2-img'
 <!-- Include after Vue -->
 <!-- Local files -->
 <script src="vue-2-img/dist/vue-2-img.js"></script>
+<script src="vue-2-img/dist/vue-2-img.css"></script>
 
 <!-- From CDN -->
 <link rel="stylesheet" href="https://unpkg.com/vue-2-img/dist/vue-2-img.css"></link>
@@ -43,9 +45,9 @@ imageCapture().pdf()
 // Overide Defaults
 let pdfImg = {
     target: 'body',
-    captureHiddenClass: 'hic-hidden',
-    captureShowClass: 'hic-show',
-    captureActiveClass: 'hic-active',
+    captureHiddenClass: 'vti__hidden',
+    captureShowClass: 'vti__show',
+    captureActiveClass: 'vti__active',
     fileName: 'ImageCapture',
     fileType: 'png'
 }
@@ -58,9 +60,9 @@ imageCapture().pdf(pdfConfig)
 let pdfConfig = {
       target: 'body',
       pageTarget: '.pageTarget',
-      captureHiddenClass: 'hic-hidden',
-      captureShowClass: 'hic-show',
-      captureActiveClass: 'hic-active',
+      captureHiddenClass: 'vti__hidden',
+      captureShowClass: 'vti__show',
+      captureActiveClass: 'vti__active',
       title: 'pdfCapture',
       author: 'html-image-capture-service',
       maxItems: 50,
@@ -78,8 +80,8 @@ imageCapture().pdf(pdfConfig)
 ## TODO
 
 - VUEJS directive/component
-- Tests
 - Rewrite to ES6 and lodash (not jQuery)
+- Tests
 
 ## License
 

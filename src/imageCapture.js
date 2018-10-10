@@ -7,9 +7,9 @@ const imageCapture = () => {
   const image = (_options) => {
     const _defaults = {
       target: 'body',
-      captureHiddenClass: 'hic-hidden',
-      captureShowClass: 'hic-show',
-      captureActiveClass: 'hic-active',
+      captureHiddenClass: 'vti__hidden',
+      captureShowClass: 'vti__show',
+      captureActiveClass: 'vti__active',
       fileName: 'ImageCapture',
       fileType: 'png'
     }
@@ -129,9 +129,9 @@ const imageCapture = () => {
     const _defaults = {
       target: 'body',
       pageTarget: '.pageTarget',
-      captureHiddenClass: 'hic-hidden',
-      captureShowClass: 'hic-show',
-      captureActiveClass: 'hic-active',
+      captureHiddenClass: 'vti__hidden',
+      captureShowClass: 'vti__show',
+      captureActiveClass: 'vti__active',
       title: 'pdfCapture',
       author: 'html-image-capture-service',
       maxItems: 50,
@@ -189,7 +189,7 @@ const imageCapture = () => {
 
     const setUp = () => {
       $('body').addClass(_settings.captureActiveClass)
-      $('body').append('<div class="progressCapture"><div class="progressBar"></div></div>')
+      $('body').append('<div class="vti__progressCapture"><div class="vti__progressBar"></div></div>')
     }
 
     const svgToCanvas = (target) => {
@@ -262,12 +262,12 @@ const imageCapture = () => {
       pdf.addImage(canvasObj.toDataURL('image/jpeg'), 'JPEG', (padding / 2), (padding / 2), (maxW), (maxH))
       counterI++
       console.log(counterI / nRendered)
-      $('.progressBar').width(100 - ((counterI / nRendered) * 100) + '%')
+      $('.vti__progressBar').width(100 - ((counterI / nRendered) * 100) + '%')
 
       if (counterI === nRendered) {
         pdf.save(fileName)
         cleanUp()
-        $('.progressCapture').remove
+        $('.vti__progressCapture').remove
         $('body').removeClass(_settings.captureActiveClass)
       } else {
         pdf.addPage()
