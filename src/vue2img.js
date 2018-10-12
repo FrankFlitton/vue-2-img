@@ -83,6 +83,7 @@ const vue2img = () => {
       html2canvas($(_settings.target)[0], {
         async: true,
         allowTaint: true,
+        useCORS: true,
         taintTest: false,
         timeout: 1,
         letterRendering: true,
@@ -248,6 +249,7 @@ const vue2img = () => {
       html2canvas(jObject, {
         async: false,
         allowTaint: true,
+        useCORS: true,
         taintTest: false,
         letterRendering: true,
         background: '#ffffff'
