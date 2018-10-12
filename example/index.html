@@ -8,13 +8,13 @@
     <script src="https://code.highcharts.com/modules/export-data.js"></script>
 
 
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" rel="stylesheet"></link>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Niramit|Roboto" rel="stylesheet">
 
-    <!--<script src="../dist/vue-2-img.js"></script>
-    <link href="../dist/vue-2-img.css" rel="stylesheet"></link>-->
-    <script src="https://unpkg.com/vue-2-img"></script>
-    <link rel="stylesheet" href="https://unpkg.com/vue-2-img/dist/vue-2-img.css"></link>
+    <script src="../dist/vue-2-img.js"></script>
+    <link href="../dist/vue-2-img.css" rel="stylesheet">
+    <!-- <script src="https://unpkg.com/vue-2-img"></script>
+    <link rel="stylesheet" href="https://unpkg.com/vue-2-img/dist/vue-2-img.css"> -->
 
     <style>
         body {
@@ -40,21 +40,25 @@
             display: block;
             color: red;
             position: relative;
-            background: blue;
+            background: white;
         }
         .poster .border {
             position: absolute;
             width: 100%;
             height: 100%;
             border: blue solid 10px;
-            box-shadow: inset 0px 0px 0px 20px white;
         }
         .poster .black-and-white {
-            filter: grayscale(1) contrast(1.4) brightness(1.6) contrast(0.4) sepia(1) hue-rotate(190deg) saturate(7);
+            -webkit-filter: grayscale(1);
+            -moz-filter: grayscale(1);
+            -ms-filter: grayscale(1);
+            filter: grayscale(1);
+            opacity: 0.8;
             width: 90%;
             position: absolute;
             top: 5%;
             left: 5%;
+            border: white solid 10px;
         }
         .poster h2 {
             position: absolute;
@@ -72,7 +76,7 @@
             width: 2em;
             height: 2em;
             border-radius: 50%;
-            background: navy;
+            background: black;
             display: block;
             z-index: -1;
             bottom: -0.5em;
@@ -108,17 +112,6 @@
         <div class="row">
             <div class="col mb-5">
                 <div class="pageTarget">
-                    <div class="poster">
-                        <img class="black-and-white" src="example.jpg" alt="Example image" crossorigin="anonymous">
-                        <div class="border"></div>
-                        <h2>Poster Example</h2>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col mb-5">
-                <div class="pageTarget">
                     <h1>Bar Chart Example</h1>
                     <div
                         class="chart"
@@ -135,6 +128,18 @@
                         class="chart"
                         id="container2"
                     ></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col mb-5">
+                <div class="pageTarget">
+                    <h1>CSS Poster Example</h1>
+                    <div class="poster m-auto d-block w-auto">
+                        <img crossorigin="anonymous" src="./example.jpg" alt="Example image" class="black-and-white">
+                        <div class="border"></div>
+                        <h2>Poster Example</h2>
+                    </div>
                 </div>
             </div>
         </div>
