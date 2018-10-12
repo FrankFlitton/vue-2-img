@@ -40,7 +40,7 @@ import 'vue-2-img/dist/vue-2-img.css'
 
 ```js
 // Single Image
-imageCapture().pdf()
+vue2img().pdf()
 
 // Overide Defaults
 let pdfImg = {
@@ -51,10 +51,10 @@ let pdfImg = {
     fileName: 'ImageCapture',
     fileType: 'png'
 }
-imageCapture().pdf(pdfImg)
+vue2img().pdf(pdfImg)
 
 // Multipage PDF
-imageCapture().pdf(pdfConfig)
+vue2img().pdf(pdfConfig)
 
 // Overide Defaults
 let pdfConfig = {
@@ -74,7 +74,7 @@ let pdfConfig = {
       pageWidth: null, // 792 for letter
       pageUnits: 'pt'
 }
-imageCapture().pdf(pdfConfig)
+vue2img().pdf(pdfConfig)
 ```
 
 ## TODO

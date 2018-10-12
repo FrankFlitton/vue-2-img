@@ -1,5 +1,5 @@
-import imageCapture from './imageCapture.js'
-import './imageCapture.scss'
+import vue2img from './vue2img.js'
+import './vue2img.scss'
 // function plugin (Vue) {
 //   Vue.component('hello', Hello)
 //   Vue.component('hello-jsx', HelloJsx)
@@ -10,12 +10,12 @@ import './imageCapture.scss'
 //   window.Vue.use(plugin)
 // }
 
-window.imageCapture = imageCapture
+window.vue2img = vue2img
 
-export default imageCapture
+export default vue2img
 const version = '__VERSION__'
 // Export all components too
 export {
   version,
-  imageCapture
+  vue2img
 }

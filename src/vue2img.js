@@ -3,7 +3,7 @@ import $ from 'jquery'
 import jsPDF from 'jsPDF'
 var canvg = require('canvg-browser')
 
-const imageCapture = () => {
+const vue2img = () => {
   const image = (_options) => {
     const _defaults = {
       target: 'body',
@@ -302,4 +302,4 @@ const imageCapture = () => {
   }
 }
 
-export default imageCapture
+export default vue2img
