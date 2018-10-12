@@ -84,11 +84,11 @@ const vue2img = () => {
         async: true,
         allowTaint: true,
         useCORS: true,
-        taintTest: false,
         timeout: 1,
         letterRendering: true,
         background: '#ffffff',
-        logging: false
+        logging: false,
+        scale: 2
       })
       .then(data => {
         console.log(data)
@@ -250,9 +250,9 @@ const vue2img = () => {
         async: false,
         allowTaint: true,
         useCORS: true,
-        taintTest: false,
         letterRendering: true,
-        background: '#ffffff'
+        background: '#ffffff',
+        scale: 2
       })
       .then(assemblePdfPages)
     }
