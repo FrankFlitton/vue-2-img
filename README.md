@@ -1,15 +1,14 @@
-    vue2img().image(pdfImg)
 # Vue2Img
 
 [![npm](https://img.shields.io/npm/v/vue-2-img.svg)](https://www.npmjs.com/package/vue-2-img) [![vue2](https://img.shields.io/badge/vue-2.x-brightgreen.svg)](https://vuejs.org/)
 
-> WIP A component to converts DOM elements and charts to JPG, PNG or PDFs.
+> An easy way to convert HTML sections and charts to JPG, PNG or PDF files for download or base64 encoding.
 
-This JS package aims to truthfully and easily convert anything that is rendered in the browser to a raster image for download. It works excellent with HighCharts and other SVG rendered graphics.
+This JS package aims to truthfully and easily convert anything that is rendered in the browser to a raster image for download or base64 encoding somewhere else in your app. It works excellent with chart libraries like HighCharts and other SVG rendered graphics.
 
-Initially conceived to be a vueJS directive, I'm publishing the first version as a generic JS package to get feedback while building a more integrated vue solution.
+Vue2Img wraps [html2canvas](https://www.npmjs.com/package/html2canvas) and [jsPDF](https://www.npmjs.com/package/jspdf) packages with logic to make common tasks easier so you can focus on your app. Initially conceived to be a VueJS directive, it's made available as a generic JS package that should integrate with any web page.
 
-Any feedback is welcome!
+Feedback is welcome!
 
 # Features
 - Take client side screencaps of your web app
@@ -17,6 +16,7 @@ Any feedback is welcome!
 - Processes SVGs and icon font files
 - Snap a screenshot of a single DOM element or the whole page
 - Automatically download an image or PDF file
+- Easy install for VueJS (or any other JS Framework)
 - Runs 100% in the web browser
 
 ## New as of v0.0.5

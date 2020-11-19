@@ -1,7 +1,7 @@
 {
   "name": "vue-2-img",
   "version": "0.0.5",
-  "description": "WIP A component to converts DOM elements and charts to JPG, PNG or PDFs.",
+  "description": "An easy way to convert HTML sections and charts to JPG, PNG or PDF files",
   "author": "Frank Flitton <fflitton@gmail.com>",
   "main": "dist/vue-2-img.common.js",
   "module": "dist/vue-2-img.esm.js",
