@@ -3,6 +3,7 @@ import $ from 'jquery'
 import { jsPDF as JsPDF } from 'jsPDF'
 import svgToCanvas from './domConverters/svgToCanvas'
 import imgTo64 from './domConverters/imgTo64'
+import { getDate } from './utils'
 
 const vue2img = () => {
   const image = (_options) => {
@@ -12,7 +13,8 @@ const vue2img = () => {
       captureShowClass: 'vti__show',
       captureActiveClass: 'vti__active',
       fileName: 'ImageCapture',
-      fileType: 'png'
+      fileType: 'png',
+      returnType: 'download'
     }
 
     // Merge defaults and options, without modifying defaults
@@ -43,9 +45,8 @@ const vue2img = () => {
       $('body').removeClass(_settings.captureActiveClass)
     }
 
-    const printPNG = () => {
-      console.log(_settings.target, $(_settings.target)[0])
-      html2canvas($(_settings.target)[0], {
+    function canvasExport (callback) {
+      return html2canvas($(_settings.target)[0], {
         async: true,
         allowTaint: true,
         useCORS: true,
@@ -54,22 +55,23 @@ const vue2img = () => {
         background: '#ffffff',
         logging: false,
         scale: 2
-      })
-      .then(data => {
-        console.log(data)
-        pngExport(data)
+      }).then((data) => {
+        if (callback) return callback(data)
+        return data
       })
     }
 
-    function pngExport (canvasObj) {
-      saveAs(canvasObj.toDataURL('image/' + _settings.fileType), fileName)
+    function imageExport (canvasObj) {
+      console.log(typeof canvasObj)
+      return canvasObj.toDataURL('image/' + _settings.fileType)
     }
 
-    const saveAs = (uri, filename) => {
+    function downloadFile (uri) {
       var link = document.createElement('a')
+      const downloadName = fileName
       if (typeof link.download === 'string') {
         link.href = uri
-        link.download = filename
+        link.download = downloadName
 
         // Firefox requires the link to be in the body
         document.body.appendChild(link)
@@ -88,11 +90,27 @@ const vue2img = () => {
     setUp()
     svgToCanvas(_settings.target)
     imgTo64(_settings.target, imgList)
-    printPNG()
+
+    // Return image to use in desired format
+    if (_settings.returnType === 'download') {
+      canvasExport((canvas) => downloadFile(imageExport(canvas)))
+    } else if (_settings.returnType === 'canvas') {
+      return canvasExport((canvas) => { return canvas })
+    } else if (_settings.returnType === 'blob') {
+      return canvasExport(
+        (canvas) => {
+          return canvas
+            .toBlob(blob => blob, 'image/' + _settings.fileType)
+        }
+      )
+    } else if (_settings.returnType === 'base64') {
+      return imageExport(canvasExport())
+    }
+
     cleanUp(_settings.target)
   } // end img
 
-  function pdf (_options) {
+  const pdf = (_options) => {
     const _defaults = {
       target: 'body',
       pageTarget: '.pageTarget',
@@ -220,22 +238,6 @@ const vue2img = () => {
     svgToCanvas(_settings.target)
     imgTo64(_settings.target, imgList)
     $.each(listOfPages, assembleImages)
-  }
-
-  // Print date
-  const getDate = function () {
-    var objToday = new Date()
-    var day = objToday.getDay()
-    var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-    var curMonth = months[objToday.getMonth()]
-    var curYear = objToday.getFullYear()
-    var curHour = objToday.getHours() > 12 ? objToday.getHours() - 12 : (objToday.getHours() < 10 ? '0' + objToday.getHours() : objToday.getHours())
-    var curMinute = objToday.getMinutes() < 10 ? '0' + objToday.getMinutes() : objToday.getMinutes()
-    var curSeconds = objToday.getSeconds() < 10 ? '0' + objToday.getSeconds() : objToday.getSeconds()
-    var today = curHour + ':' + curMinute + '.' + curSeconds + '_' + day + '_' + curMonth + '_' + curYear
-
-    return today
-    // document.getElementsByTagName('h1')[0].textContent = today
   }
 
   return {
