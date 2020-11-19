@@ -13,15 +13,15 @@ Any feedback is welcome!
 
 # Features
 - Take client side screencaps of your web app
-- Works with CORS images
+- Bundle many screenshots up as a PDF
 - Processes SVGs and icon font files
-- Automatically sizes to your render area
-- Snap a screenshot of a single DOM element
-- Pack many screenshots as a PDF
+- Snap a screenshot of a single DOM element or the whole page
 - Automatically download an image or PDF file
+- Runs 100% in the web browser
 
 ## New as of v0.0.5
 - Copy a single image or PDF to the clipboard (via navigator API)
+- Plays nice with CORS
 - Works with CORS images out of the box
 - CSS filter support on `<img>` elements
 - Return a base64 image, blob, or canvas element
@@ -68,7 +68,7 @@ let pdfImg = {
     captureActiveClass: 'vti__active',
     fileName: 'ImageCapture',
     fileType: 'png',
-    returnAction: 'download' // blob, base64, canvas, clipboard
+    returnAction: 'download', // blob, base64, canvas, clipboard
     callback: (img) => { return img } // modifies what image is returned
 }
 
