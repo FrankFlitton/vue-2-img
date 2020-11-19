@@ -5,6 +5,8 @@ import { createOffscreenCanvas } from '../utils'
 
 const imgTo64 = (target, imgList) => {
   const imgElements = document.querySelectorAll(target + ' img')
+  const devicePixelRatio = window.devicePixelRatio
+
   // Replace all images with Base64 version
   imgElements.forEach((imageNode) => {
     // Replace after rendering
@@ -14,16 +16,22 @@ const imgTo64 = (target, imgList) => {
     imageNode.setAttribute('crossOrigin', 'anonymous')
 
     // Create canvas
-    const c = createOffscreenCanvas()
-    c.width = imageNode.width
-    c.height = imageNode.height
-    const ctx = c.getContext('2d')
+    const canvas = createOffscreenCanvas()
+    const context = canvas.getContext('2d')
+
+    // Look good on retina, use device size
+    canvas.width = imageNode.width * devicePixelRatio
+    canvas.height = imageNode.height * devicePixelRatio
 
     // Apply css filters
-    ctx.filter = window.getComputedStyle(imageNode).filter
-    ctx.drawImage(imageNode, 0, 0, c.width, c.height)
+    context.filter = window.getComputedStyle(imageNode).filter
+    context.drawImage(imageNode, 0, 0, canvas.width, canvas.height)
 
-    imageNode.src = c.toDataURL('image/png')
+    // Reset size
+    canvas.style.width = imageNode.width + 'px'
+    canvas.style.height = imageNode.height + 'px'
+
+    imageNode.src = canvas.toDataURL('image/png')
   })
 }
 
