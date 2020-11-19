@@ -1,3 +1,4 @@
+    vue2img().image(pdfImg)
 # Vue2Img
 
 [![npm](https://img.shields.io/npm/v/vue-2-img.svg)](https://www.npmjs.com/package/vue-2-img) [![vue2](https://img.shields.io/badge/vue-2.x-brightgreen.svg)](https://vuejs.org/)
@@ -9,6 +10,23 @@ This JS package aims to truthfully and easily convert anything that is rendered 
 Initially conceived to be a vueJS directive, I'm publishing the first version as a generic JS package to get feedback while building a more integrated vue solution.
 
 Any feedback is welcome!
+
+# Features
+- Take client side screencaps of your web app
+- Works with CORS images
+- Processes SVGs and icon font files
+- Automatically sizes to your render area
+- Snap a screenshot of a single DOM element
+- Pack many screenshots as a PDF
+- Automatically download an image or PDF file
+
+## New as of v0.0.5
+- Copy a single image or PDF to the clipboard (via navigator API)
+- Works with CORS images out of the box
+- CSS filter support on `<img>` elements
+- Return a base64 image, blob, or canvas element
+- Execute a callback to modify the image data before it's returned
+- Returns promises for easy async workflows
 
 ## Installation
 
@@ -49,9 +67,10 @@ let pdfImg = {
     captureShowClass: 'vti__show',
     captureActiveClass: 'vti__active',
     fileName: 'ImageCapture',
-    fileType: 'png'
+    fileType: 'png',
+    returnAction: 'download' // blob, base64, canvas, clipboard
+    callback: (img) => { return img } // modifies what image is returned
 }
-vue2img().image(pdfImg)
 
 // Multipage PDF
 vue2img().pdf(pdfConfig)
@@ -72,16 +91,11 @@ let pdfConfig = {
       devStyle: false,
       pageHeight: null, // 612 for letter
       pageWidth: null, // 792 for letter
-      pageUnits: 'pt'
+      pageUnits: 'pt',
+      returnAction: 'download' // blob, base64, clipboard
 }
 vue2img().pdf(pdfConfig)
 ```
-
-## TODO
-
-- VUEJS directive/component
-- Rewrite to ES6 and lodash (not jQuery)
-- Tests
 
 ## License
 

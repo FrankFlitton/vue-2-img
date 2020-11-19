@@ -21,7 +21,8 @@ export const pdf = (_options) => {
     devStyle: false,
     pageHeight: null,
     pageWidth: null,
-    pageUnits: 'pt'
+    pageUnits: 'pt',
+    returnAction: 'download'
   }
 
   // Merge defaults and options, without modifying defaults
@@ -93,6 +94,8 @@ export const pdf = (_options) => {
     $(_settings.target).find('.screenShotTempCanvas').remove()
     $(_settings.target).find('.tempHide').show().removeClass('tempHide')
     $('body').removeClass(_settings.captureActiveClass)
+    $('.vti__progressCapture').remove
+    $('body').removeClass(_settings.captureActiveClass)
   }
 
   const assembleImages = (key, jObject, callback) => {
@@ -130,4 +133,29 @@ export const pdf = (_options) => {
   svgToCanvas(_settings.target)
   imgTo64(_settings.target, imgList)
   $.each(listOfPages, assembleImages)
+
+  // Listen for all images to be rendered
+  // eslint-disable-next-line no-unmodified-loop-condition
+  while (counterI >= nRendered) {}
+
+  cleanUp()
+
+  if (_settings.returnAction === 'download') {
+    pdf.save(fileName)
+    return pdf.output('datauristring')
+  } else if (_settings.returnAction === 'base64') {
+    return pdf.output('datauristring')
+  } else if (_settings.returnAction === 'newWindow') {
+    return pdf.output('dataurlnewwindow')
+  } else if (_settings.returnAction === 'blob') {
+    return pdf.output('blob')
+  } else if (_settings.returnAction === 'clipboard') {
+    const blobObj = pdf.output('blob')
+    // eslint-disable-next-line no-undef
+    const item = new ClipboardItem({ 'image/png': blobObj })
+    navigator.clipboard.write([item])
+    return blobObj
+  }
+
+  return pdf.output('dataurlstring')
 }

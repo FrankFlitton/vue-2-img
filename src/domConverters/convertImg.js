@@ -92,8 +92,9 @@ export const convertImg = (_options) => {
 
   // Return image to use in desired format
   // Fire callback to handle file type
+  let outputFile = null
   if (_settings.returnAction === 'download') {
-    return canvasExport((canvas) => {
+    outputFile = canvasExport((canvas) => {
       return _settings.callback(
         downloadFile(
           imageExport(canvas)
@@ -101,22 +102,41 @@ export const convertImg = (_options) => {
       )
     })
   } else if (_settings.returnAction === 'canvas') {
-    return canvasExport((canvas) => {
+    outputFile = canvasExport((canvas) => {
       return _settings.callback(canvas)
     })
   } else if (_settings.returnAction === 'blob') {
-    return canvasExport(
+    outputFile = canvasExport(
       (canvas) => {
-        var blob = canvas
-          .toBlob(blob => blob, 'image/' + _settings.fileType)
-        return _settings.callback(blob)
+        var blobObj = null
+        canvas.toBlob((blob) => {
+          blobObj = blob
+        }, 'image/' + _settings.fileType)
+        return _settings.callback(blobObj)
       }
     )
   } else if (_settings.returnAction === 'base64') {
-    return canvasExport((canvas) => _settings.callback(
+    outputFile = canvasExport((canvas) => _settings.callback(
       imageExport(canvas)
     ))
+  } else if (_settings.returnAction === 'clipboard') {
+    outputFile = canvasExport(
+      (canvas) => {
+        var blobObj = null
+
+        canvas.toBlob((blob) => {
+          blobObj = blob
+          // eslint-disable-next-line no-undef
+          const item = new ClipboardItem({ 'image/png': blobObj })
+          navigator.clipboard.write([item])
+        }, 'image/png')
+        return _settings.callback(blobObj)
+      }
+    )
   }
 
+  console.log(outputFile)
+
   cleanUp(_settings.target)
+  return outputFile
 }
