@@ -91,7 +91,7 @@
     "vue-loader": "^12.0.0",
     "vue-template-compiler": "^2.6.12",
     "webpack": "^2.5.0",
-    "webpack-bundle-analyzer": "^2.4.0",
+    "webpack-bundle-analyzer": "^3.3.2",
     "webpack-dashboard": "^0.4.0",
     "webpack-dev-server": "^2.11.5",
     "webpack-merge": "^4.2.2",
