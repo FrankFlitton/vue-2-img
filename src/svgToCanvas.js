@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import { getStyle } from './utils'
 var canvg = require('canvg-browser')
 
 const svgToCanvas = (target) => {
@@ -28,23 +29,6 @@ const svgToCanvas = (target) => {
     // hide the SVG element
     $(this).attr('class', 'tempHide')
     $(this).hide()
-  })
-}
-
-const getStyle = function (domElement, styleProp) {
-  if (domElement.currentStyle) {
-    return domElement.currentStyle[camelize(styleProp)]
-  } else if (document.defaultView && document.defaultView.getComputedStyle) {
-    return document.defaultView.getComputedStyle(domElement, null)
-      .getPropertyValue(styleProp)
-  } else {
-    return domElement.style[camelize(styleProp)]
-  }
-}
-
-const camelize = function (str) {
-  return str.replace(/\-(\w)/g, function (str, letter) {
-    return letter.toUpperCase()
   })
 }
 

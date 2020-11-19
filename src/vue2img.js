@@ -165,10 +165,10 @@ const vue2img = () => {
 
     const pdf = new JsPDF(pdfConfig).compatAPI()
 
-    // pdf.setProperties({
-    //   title: _settings.title,
-    //   author: _settings.author
-    // })
+    pdf.setDocumentProperties({
+      title: _settings.title,
+      author: _settings.author
+    })
 
     const setUp = () => {
       $('body').addClass(_settings.captureActiveClass)
