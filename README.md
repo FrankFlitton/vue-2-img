@@ -24,7 +24,8 @@ Any feedback is welcome!
 - Plays nice with CORS out of the box
 - CSS filter support on `<img>` elements
 - Return a base64 image, blob, or canvas element
-- Execute a callback to modify the image data before it's returned
+- Open the PDF or image file in a new window
+- Pass in a callback or use promises to use the image data in your app
 - Returns promises for easy async workflows
 
 ## Installation
@@ -67,7 +68,7 @@ let pdfImg = {
     captureActiveClass: 'vti__active',
     fileName: 'ImageCapture',
     fileType: 'png',
-    returnAction: 'download', // blob, base64, canvas, clipboard
+    returnAction: 'download', // blob, base64, canvas, clipboard, newWindow
     callback: (img) => { return img } // modifies what image is returned
 }
 
@@ -91,7 +92,7 @@ let pdfConfig = {
       pageHeight: null, // 612 for letter
       pageWidth: null, // 792 for letter
       pageUnits: 'pt',
-      returnAction: 'download' // blob, base64, clipboard
+      returnAction: 'download' // blob, base64, clipboard, newWindow
 }
 vue2img().pdf(pdfConfig)
 ```
