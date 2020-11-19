@@ -3,7 +3,7 @@ import { createOffscreenCanvas } from '../../utils'
 // Fix for cors bug
 // https://github.com/niklasvh/html2canvas/issues/1544
 
-const imgTo64 = (target, imgList) => {
+export const imgTo64 = (target, imgList) => {
   const imgElements = document.querySelectorAll(target + ' img')
   const devicePixelRatio = window.devicePixelRatio
 
@@ -34,5 +34,3 @@ const imgTo64 = (target, imgList) => {
     imageNode.src = canvas.toDataURL('image/png')
   })
 }
-
-export default imgTo64

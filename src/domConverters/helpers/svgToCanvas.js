@@ -2,7 +2,7 @@ import $ from 'jquery'
 import { getStyle } from '../../utils'
 var canvg = require('canvg-browser')
 
-const svgToCanvas = (target) => {
+export const svgToCanvas = (target) => {
   var svgElements = $(target).find('svg')
 
   // replace all svgs with a temp canvas
@@ -31,5 +31,3 @@ const svgToCanvas = (target) => {
     $(this).hide()
   })
 }
-
-export default svgToCanvas
