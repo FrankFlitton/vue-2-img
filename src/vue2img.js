@@ -126,6 +126,14 @@ const vue2img = () => {
     let pageOrientation = 'p'
     const padding = _settings.padding
 
+    // For cors bugs and rendering issues
+    // images are base64 encoded and replaced
+    // after image rendering
+    var srcList = []
+    const imgList = (src) => {
+      srcList.push(src)
+    }
+
     // Page layout configuration
     if (_settings.pageHeight === null || _settings.pageWidth === null) {
       listOfPages.each(getPageSizes)
@@ -168,6 +176,9 @@ const vue2img = () => {
     }
 
     const cleanUp = () => {
+      document.querySelectorAll(_settings.target + ' img').forEach((imageNode, index) => {
+        imageNode = srcList[index]
+      })
       $(_settings.target).find('.screenShotTempCanvas').remove()
       $(_settings.target).find('.tempHide').show().removeClass('tempHide')
       $('body').removeClass(_settings.captureActiveClass)
@@ -207,7 +218,7 @@ const vue2img = () => {
     // Start Routine
     setUp()
     svgToCanvas(_settings.target)
-    imgTo64(_settings.target)
+    imgTo64(_settings.target, imgList)
     $.each(listOfPages, assembleImages)
   }
 
