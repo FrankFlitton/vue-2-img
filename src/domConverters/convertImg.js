@@ -20,9 +20,8 @@ export const convertImg = async (_options) => {
 
   // Merge defaults and options, without modifying defaults
   const _settings = $.extend({}, _defaults, _options)
-
-  // const fileName = _settings.fileName + getDate() + '.' + _settings.fileType
   const fileName = _settings.fileName + getDate() + '.' + _settings.fileType
+  _settings.returnAction = '' + _settings.returnAction.toLowerCase().trim()
 
   // For cors bugs and rendering issues
   // images are base64 encoded and replaced
@@ -94,6 +93,10 @@ export const convertImg = async (_options) => {
       outputFile = blob
     }, 'image/' + _settings.fileType)
     _settings.callback(outputFile)
+  } else if (_settings.returnAction === 'newwindow') {
+    outputFile = imageExport(canvas)
+    var nW = global.open(outputFile)
+    if (nW || typeof safari === 'undefined') outputFile = nW
   } else if (_settings.returnAction === 'base64') {
     outputFile = imageExport(canvas)
   } else if (_settings.returnAction === 'clipboard') {

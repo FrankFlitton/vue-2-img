@@ -37,6 +37,7 @@ export const convertPdf = async (_options) => {
   let pageHeight = _settings.pageHeight
   let pageOrientation = 'p'
   const padding = _settings.padding
+  _settings.returnAction = '' + _settings.returnAction.toLowerCase().trim()
 
   // For cors bugs and rendering issues
   // images are base64 encoded and replaced
@@ -131,7 +132,7 @@ export const convertPdf = async (_options) => {
     return pdf.output('datauristring')
   } else if (_settings.returnAction === 'base64') {
     return pdf.output('datauristring')
-  } else if (_settings.returnAction === 'newWindow') {
+  } else if (_settings.returnAction === 'newwindow') {
     return pdf.output('dataurlnewwindow')
   } else if (_settings.returnAction === 'blob') {
     return pdf.output('blob')
