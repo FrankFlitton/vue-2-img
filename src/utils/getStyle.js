@@ -1,4 +1,4 @@
-import camelize from './camilize'
+import { camelize } from './camelize.js'
 
 export function getStyle (domElement, styleProp) {
   if (domElement.currentStyle) {
