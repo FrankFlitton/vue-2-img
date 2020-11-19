@@ -1,7 +1,8 @@
 import html2canvas from 'html2canvas'
 import $ from 'jquery'
-import jsPDF from 'jsPDF'
-var canvg = require('canvg-browser')
+import { jsPDF as JsPDF } from 'jsPDF'
+import svgToCanvas from './svgToCanvas'
+import imgTo64 from './imgTo64'
 
 const vue2img = () => {
   const image = (_options) => {
@@ -20,62 +21,26 @@ const vue2img = () => {
     // const fileName = _settings.fileName + getDate() + '.' + _settings.fileType
     const fileName = _settings.fileName + getDate() + '.' + _settings.fileType
 
+    // For cors bugs and rendering issues
+    // images are base64 encoded and replaced
+    // after image rendering
+    var srcList = []
+    const imgList = (src) => {
+      srcList.push(src)
+    }
+
     // Functions
     const setUp = () => {
       $('body').addClass(_settings.captureActiveClass)
     }
 
-    const cleanUp = () => {
+    const cleanUp = (target) => {
+      document.querySelectorAll(target + ' img').forEach((imageNode, index) => {
+        imageNode = srcList[index]
+      })
       $(_settings.target).find('.screenShotTempCanvas').remove()
       $(_settings.target).find('.tempHide').show().removeClass('tempHide')
       $('body').removeClass(_settings.captureActiveClass)
-    }
-
-    const svgToCanvas = (target) => {
-      var svgElements = $(target).find('svg')
-      console.log(target, svgElements)
-      // replace all svgs with a temp canvas
-      svgElements.each(function () {
-        var canvas = null
-        var xml = null
-
-        // canvg doesn't cope very well with em font sizes so find the calculated size in pixels and replace it in the element.
-        $.each($(this).find('[style*=em]'), function (index, domElement) {
-          $(this).css('font-size', getStyle(domElement, 'font-size'))
-        })
-
-        canvas = document.createElement('canvas')
-        canvas.className = 'screenShotTempCanvas'
-        // convert SVG into a XML string
-        xml = (new window.XMLSerializer()).serializeToString(this)
-
-        // Removing the name space as IE throws an error
-        xml = xml.replace(/xmlns=\"http:\/\/www\.w3\.org\/2000\/svg\"/, '')
-
-        // draw the SVG onto a canvas
-        canvg(canvas, xml)
-        $(canvas).insertAfter(this)
-        // hide the SVG element
-        $(this).attr('class', 'tempHide')
-        $(this).hide()
-      })
-    }
-
-    const getStyle = function (domElement, styleProp) {
-      var camelize = function (str) {
-        return str.replace(/\-(\w)/g, function (str, letter) {
-          return letter.toUpperCase()
-        })
-      }
-
-      if (domElement.currentStyle) {
-        return domElement.currentStyle[camelize(styleProp)]
-      } else if (document.defaultView && document.defaultView.getComputedStyle) {
-        return document.defaultView.getComputedStyle(domElement, null)
-          .getPropertyValue(styleProp)
-      } else {
-        return domElement.style[camelize(styleProp)]
-      }
     }
 
     const printPNG = () => {
@@ -122,8 +87,9 @@ const vue2img = () => {
     // Start Routine
     setUp()
     svgToCanvas(_settings.target)
+    imgTo64(_settings.target, imgList)
     printPNG()
-    cleanUp()
+    cleanUp(_settings.target)
   } // end img
 
   function pdf (_options) {
@@ -159,7 +125,6 @@ const vue2img = () => {
     let pageHeight = _settings.pageHeight
     let pageOrientation = 'p'
     const padding = _settings.padding
-    const JSPDF = jsPDF
 
     // Page layout configuration
     if (_settings.pageHeight === null || _settings.pageWidth === null) {
@@ -182,61 +147,24 @@ const vue2img = () => {
       pageOrientation = 'l'
     }
 
-    const pdf = new JSPDF(pageOrientation, _settings.pageUnits, [pageWidth, pageHeight])
-    pdf.setProperties({
-      title: _settings.title,
-      author: _settings.author
-    })
+    const pdfConfig = {
+      orientation: pageOrientation,
+      unit: _settings.pageUnits,
+      format: [pageWidth, pageHeight],
+      putOnlyUsedFonts: true,
+      floatPrecision: 16
+    }
+
+    const pdf = new JsPDF(pdfConfig).compatAPI()
+
+    // pdf.setProperties({
+    //   title: _settings.title,
+    //   author: _settings.author
+    // })
 
     const setUp = () => {
       $('body').addClass(_settings.captureActiveClass)
       $('body').append('<div class="vti__progressCapture"><div class="vti__progressBar"></div></div>')
-    }
-
-    const svgToCanvas = (target) => {
-      var svgElements = $(target).find('svg')
-
-      // replace all svgs with a temp canvas
-      svgElements.each(function () {
-        var canvas, xml
-
-        // canvg doesn't cope very well with em font sizes so find the calculated size in pixels and replace it in the element.
-        $.each($(this).find('[style*=em]'), function (index, domElement) {
-          $(this).css('font-size', getStyle(domElement, 'font-size'))
-        })
-
-        canvas = document.createElement('canvas')
-        canvas.className = 'screenShotTempCanvas'
-        // convert SVG into a XML string
-        xml = (new window.XMLSerializer()).serializeToString(this)
-
-        // Removing the name space as IE throws an error
-        xml = xml.replace(/xmlns=\"http:\/\/www\.w3\.org\/2000\/svg\"/, '')
-
-        // draw the SVG onto a canvas
-        canvg(canvas, xml)
-        $(canvas).insertAfter(this)
-        // hide the SVG element
-        $(this).attr('class', 'tempHide')
-        $(this).hide()
-      })
-    }
-
-    const getStyle = (domElement, styleProp) => {
-      var camelize = function (str) {
-        return str.replace(/\-(\w)/g, function (str, letter) {
-          return letter.toUpperCase()
-        })
-      }
-
-      if (domElement.currentStyle) {
-        return domElement.currentStyle[camelize(styleProp)]
-      } else if (document.defaultView && document.defaultView.getComputedStyle) {
-        return document.defaultView.getComputedStyle(domElement, null)
-          .getPropertyValue(styleProp)
-      } else {
-        return domElement.style[camelize(styleProp)]
-      }
     }
 
     const cleanUp = () => {
@@ -254,7 +182,7 @@ const vue2img = () => {
         background: '#ffffff',
         scale: 2
       })
-      .then(assemblePdfPages)
+        .then(assemblePdfPages)
     }
 
     const assemblePdfPages = (canvasObj, maxW, maxH) => {
@@ -272,13 +200,14 @@ const vue2img = () => {
         $('.vti__progressCapture').remove
         $('body').removeClass(_settings.captureActiveClass)
       } else {
-        pdf.addPage()
+        pdf.addPage([pageWidth, pageHeight], pageOrientation)
       }
     }
 
     // Start Routine
     setUp()
     svgToCanvas(_settings.target)
+    imgTo64(_settings.target)
     $.each(listOfPages, assembleImages)
   }
 
