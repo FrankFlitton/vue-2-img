@@ -1,12 +1,13 @@
 {
   "presets": [
     [
-      "env",
+      "es2015", "env"
     ]
   ],
   "plugins": [
     "transform-vue-jsx",
-    "transform-object-rest-spread"
+    "transform-object-rest-spread",
+    "transform-async-to-generator"
   ],
   "env": {
     "test": {

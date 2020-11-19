@@ -27,7 +27,7 @@ module.exports = {
     path: resolve(__dirname, '../dist'),
     filename: `${filename}.common.js`
   },
-  entry: './src/index.js',
+  entry: ['babel-polyfill', './src/index.js'],
   resolve: {
     extensions: ['.js', '.vue', '.jsx', 'css'],
     alias: {
