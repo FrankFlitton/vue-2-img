@@ -1,4 +1,4 @@
-import { createOffscreenCanvas } from '../utils'
+import { createOffscreenCanvas } from '../../utils'
 
 // Fix for cors bug
 // https://github.com/niklasvh/html2canvas/issues/1544

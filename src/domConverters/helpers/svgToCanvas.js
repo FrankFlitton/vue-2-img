@@ -1,10 +1,10 @@
 import $ from 'jquery'
-import { getStyle } from '../utils'
+import { getStyle } from '../../utils'
 var canvg = require('canvg-browser')
 
 const svgToCanvas = (target) => {
   var svgElements = $(target).find('svg')
-  console.log(target, svgElements)
+
   // replace all svgs with a temp canvas
   svgElements.each(function () {
     var canvas = null
