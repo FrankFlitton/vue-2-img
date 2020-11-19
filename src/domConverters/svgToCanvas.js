@@ -1,5 +1,5 @@
 import $ from 'jquery'
-import { getStyle } from './utils'
+import { getStyle } from '../utils'
 var canvg = require('canvg-browser')
 
 const svgToCanvas = (target) => {

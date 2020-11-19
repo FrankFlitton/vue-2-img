@@ -1,8 +1,8 @@
 import html2canvas from 'html2canvas'
 import $ from 'jquery'
 import { jsPDF as JsPDF } from 'jsPDF'
-import svgToCanvas from './svgToCanvas'
-import imgTo64 from './imgTo64'
+import svgToCanvas from './domConverters/svgToCanvas'
+import imgTo64 from './domConverters/imgTo64'
 
 const vue2img = () => {
   const image = (_options) => {
