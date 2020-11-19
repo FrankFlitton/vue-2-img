@@ -21,8 +21,7 @@ Any feedback is welcome!
 
 ## New as of v0.0.5
 - Copy a single image or PDF to the clipboard (via navigator API)
-- Plays nice with CORS
-- Works with CORS images out of the box
+- Plays nice with CORS out of the box
 - CSS filter support on `<img>` elements
 - Return a base64 image, blob, or canvas element
 - Execute a callback to modify the image data before it's returned
