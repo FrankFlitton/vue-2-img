@@ -1,11 +1,9 @@
-import html2canvas from 'html2canvas'
 import $ from 'jquery'
 import { jsPDF as JsPDF } from 'jsPDF'
-import svgToCanvas from './helpers/svgToCanvas'
-import imgTo64 from './helpers/imgTo64'
+import { canvasExport, svgToCanvas, imgTo64 } from './helpers'
 import { getDate } from '../utils'
 
-export const pdf = (_options) => {
+export const convertPdf = async (_options) => {
   const _defaults = {
     target: 'body',
     pageTarget: '.pageTarget',
@@ -98,33 +96,18 @@ export const pdf = (_options) => {
     $('body').removeClass(_settings.captureActiveClass)
   }
 
-  const assembleImages = (key, jObject, callback) => {
-    html2canvas(jObject, {
-      async: false,
-      allowTaint: true,
-      useCORS: true,
-      letterRendering: true,
-      background: '#ffffff',
-      scale: 2
-    })
-      .then(assemblePdfPages)
-  }
-
-  const assemblePdfPages = (canvasObj, maxW, maxH) => {
-    maxW = (widthList[counterI] + padding)
-    maxH = (heightList[counterI] + padding)
+  function assemblePdfPages (canvasObj) {
+    const maxW = (widthList[counterI] + padding)
+    const maxH = (heightList[counterI] + padding)
 
     pdf.addImage(canvasObj.toDataURL('image/jpeg'), 'JPEG', (padding / 2), (padding / 2), (maxW), (maxH))
     counterI++
     $('.vti__progressBar').width(100 - ((counterI / nRendered) * 100) + '%')
 
-    if (counterI === nRendered) {
-      pdf.save(fileName)
-      cleanUp()
-      $('.vti__progressCapture').remove
-      $('body').removeClass(_settings.captureActiveClass)
-    } else {
+    if (counterI < nRendered) {
       pdf.addPage([pageWidth, pageHeight], pageOrientation)
+    } else {
+      cleanUp()
     }
   }
 
@@ -132,11 +115,14 @@ export const pdf = (_options) => {
   setUp()
   svgToCanvas(_settings.target)
   imgTo64(_settings.target, imgList)
-  $.each(listOfPages, assembleImages)
 
-  // Listen for all images to be rendered
-  // eslint-disable-next-line no-unmodified-loop-condition
-  while (counterI >= nRendered) {}
+  console.log(listOfPages.length)
+
+  for (let index = 0; index < listOfPages.length; index++) {
+    const page = listOfPages[index]
+    await canvasExport(page, assemblePdfPages)
+    console.log('await')
+  }
 
   cleanUp()
 

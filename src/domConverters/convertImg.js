@@ -1,10 +1,10 @@
-import html2canvas from 'html2canvas'
 import $ from 'jquery'
-import svgToCanvas from './helpers/svgToCanvas'
-import imgTo64 from './helpers/imgTo64'
-import { getDate } from '../utils'
+import { canvasExport, imgTo64, svgToCanvas } from './helpers'
+import {
+  getDate
+} from '../utils'
 
-export const convertImg = (_options) => {
+export const convertImg = async (_options) => {
   const _defaults = {
     target: 'body',
     captureHiddenClass: 'vti__hidden',
@@ -13,7 +13,9 @@ export const convertImg = (_options) => {
     fileName: 'ImageCapture',
     fileType: 'png',
     returnAction: 'download',
-    callback: (img) => { return img }
+    callback: (img) => {
+      return img
+    }
   }
 
   // Merge defaults and options, without modifying defaults
@@ -42,22 +44,6 @@ export const convertImg = (_options) => {
     $(_settings.target).find('.screenShotTempCanvas').remove()
     $(_settings.target).find('.tempHide').show().removeClass('tempHide')
     $('body').removeClass(_settings.captureActiveClass)
-  }
-
-  function canvasExport (callback) {
-    return html2canvas($(_settings.target)[0], {
-      async: true,
-      allowTaint: true,
-      useCORS: true,
-      timeout: 1,
-      letterRendering: true,
-      background: '#ffffff',
-      logging: false,
-      scale: 2
-    }).then((data) => {
-      if (callback) return callback(data)
-      return data
-    })
   }
 
   function imageExport (canvasObj) {
@@ -92,50 +78,35 @@ export const convertImg = (_options) => {
 
   // Return image to use in desired format
   // Fire callback to handle file type
+
+  const canvas = await canvasExport($(_settings.target)[0])
+
   let outputFile = null
   if (_settings.returnAction === 'download') {
-    outputFile = canvasExport((canvas) => {
-      return _settings.callback(
-        downloadFile(
-          imageExport(canvas)
-        )
-      )
-    })
+    outputFile = imageExport(canvas)
+    _settings.callback(outputFile)
+    downloadFile(outputFile)
   } else if (_settings.returnAction === 'canvas') {
-    outputFile = canvasExport((canvas) => {
-      return _settings.callback(canvas)
-    })
+    outputFile = imageExport(canvas)
+    _settings.callback(outputFile)
   } else if (_settings.returnAction === 'blob') {
-    outputFile = canvasExport(
-      (canvas) => {
-        var blobObj = null
-        canvas.toBlob((blob) => {
-          blobObj = blob
-        }, 'image/' + _settings.fileType)
-        return _settings.callback(blobObj)
-      }
-    )
+    canvas.toBlob((blob) => {
+      outputFile = blob
+    }, 'image/' + _settings.fileType)
+    _settings.callback(outputFile)
   } else if (_settings.returnAction === 'base64') {
-    outputFile = canvasExport((canvas) => _settings.callback(
-      imageExport(canvas)
-    ))
+    outputFile = imageExport(canvas)
   } else if (_settings.returnAction === 'clipboard') {
-    outputFile = canvasExport(
-      (canvas) => {
-        var blobObj = null
-
-        canvas.toBlob((blob) => {
-          blobObj = blob
-          // eslint-disable-next-line no-undef
-          const item = new ClipboardItem({ 'image/png': blobObj })
-          navigator.clipboard.write([item])
-        }, 'image/png')
-        return _settings.callback(blobObj)
-      }
-    )
+    canvas.toBlob((blob) => {
+      outputFile = blob
+      // eslint-disable-next-line no-undef
+      const item = new ClipboardItem({
+        'image/png': outputFile
+      })
+      navigator.clipboard.write([item])
+    }, 'image/' + _settings.fileType)
   }
-
-  console.log(outputFile)
+  _settings.callback(outputFile)
 
   cleanUp(_settings.target)
   return outputFile
