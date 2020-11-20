@@ -87,7 +87,8 @@ export const convertPdf = async (_options) => {
   }
 
   const cleanUp = () => {
-    document.querySelectorAll(_settings.target + ' img').forEach((imageNode, index) => {
+    const container = document.querySelector(_settings.target)
+    container.querySelectorAll('img').forEach((imageNode, index) => {
       imageNode = srcList[index]
     })
     $(_settings.target).find('.screenShotTempCanvas').remove()

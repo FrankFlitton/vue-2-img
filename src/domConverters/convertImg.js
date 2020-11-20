@@ -37,7 +37,8 @@ export const convertImg = async (_options) => {
   }
 
   const cleanUp = (target) => {
-    document.querySelectorAll(target + ' img').forEach((imageNode, index) => {
+    const container = document.querySelector(target)
+    container.querySelectorAll('img').forEach((imageNode, index) => {
       imageNode = srcList[index]
     })
     $(_settings.target).find('.screenShotTempCanvas').remove()

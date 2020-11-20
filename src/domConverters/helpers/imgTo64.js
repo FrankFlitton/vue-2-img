@@ -4,7 +4,8 @@ import { createOffscreenCanvas } from '../../utils'
 // https://github.com/niklasvh/html2canvas/issues/1544
 
 export const imgTo64 = (target, imgList) => {
-  const imgElements = document.querySelectorAll(target + ' img')
+  const container = document.querySelector(target)
+  const imgElements = container.querySelectorAll('img')
   const devicePixelRatio = window.devicePixelRatio
 
   // Replace all images with Base64 version
