@@ -1,8 +1,20 @@
 {
   "name": "vue-2-img",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "An easy way to convert HTML sections and charts to JPG, PNG or PDF files",
-  "keywords": ["screenshot", "clipboard", "HTML", "report", "pdf", "html2canvas", "download", "share", "web", "vue", "svg"],
+  "keywords": [
+    "screenshot",
+    "clipboard",
+    "HTML",
+    "report",
+    "pdf",
+    "html2canvas",
+    "download",
+    "share",
+    "web",
+    "vue",
+    "svg"
+  ],
   "author": "Frank Flitton <fflitton@gmail.com>",
   "main": "dist/vue-2-img.common.js",
   "module": "dist/vue-2-img.esm.js",
