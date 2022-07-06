@@ -1,4 +1,3 @@
-import $ from 'jquery'
 import { canvasExport, imgTo64, svgToCanvas } from './helpers'
 import {
   getDate
@@ -19,7 +18,7 @@ export const convertImg = async (_options) => {
   }
 
   // Merge defaults and options, without modifying defaults
-  const _settings = $.extend({}, _defaults, _options)
+  const _settings = { ..._defaults, ..._options }
   const fileName = _settings.fileName + getDate() + '.' + _settings.fileType
   _settings.returnAction = '' + _settings.returnAction.toLowerCase().trim()
 
@@ -33,17 +32,24 @@ export const convertImg = async (_options) => {
 
   // Functions
   const setUp = () => {
-    $('body').addClass(_settings.captureActiveClass)
+    window.document.querySelector('body').classList.add(_settings.captureActiveClass)
   }
 
   const cleanUp = (target) => {
-    const container = document.querySelector(target)
+    const container = document.querySelector(_settings.target)
     container.querySelectorAll('img').forEach((imageNode, index) => {
-      imageNode = srcList[index]
+      imageNode.src = srcList[index]
     })
-    $(_settings.target).find('.screenShotTempCanvas').remove()
-    $(_settings.target).find('.tempHide').show().removeClass('tempHide')
-    $('body').removeClass(_settings.captureActiveClass)
+    const childrenCanvases = [...container.querySelectorAll('.screenShotTempCanvas')]
+    childrenCanvases.forEach(node => node.remove())
+
+    const childrenImg = [...container.querySelectorAll('.tempHide')]
+    childrenImg.forEach(node => {
+      node.classList.remove('tempHide')
+      node.classList.remove('vti__hidden')
+    })
+
+    window.document.querySelector('body').classList.remove(_settings.captureActiveClass)
   }
 
   function imageExport (canvasObj) {
@@ -79,7 +85,8 @@ export const convertImg = async (_options) => {
   // Return image to use in desired format
   // Fire callback to handle file type
 
-  const canvas = await canvasExport($(_settings.target)[0])
+  const targetNode = window.document.querySelector(_settings.target)
+  const canvas = await canvasExport(targetNode)
 
   let outputFile = null
   if (_settings.returnAction === 'download') {

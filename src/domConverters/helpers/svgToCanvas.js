@@ -1,18 +1,18 @@
-import $ from 'jquery'
 import { getStyle } from '../../utils'
-var canvg = require('canvg-browser')
+import { Canvg as canvg } from 'canvg'
 
 export const svgToCanvas = (target) => {
-  var svgElements = $(target).find('svg')
+  var svgElements = [...window.document.querySelectorAll(`${target} svg`)]
 
   // replace all svgs with a temp canvas
-  svgElements.each(function () {
+  svgElements.forEach(async (svgNode) => {
     var canvas = null
     var xml = null
 
     // canvg doesn't cope very well with em font sizes so find the calculated size in pixels and replace it in the element.
-    $.each($(this).find('[style*=em]'), function (index, domElement) {
-      $(this).css('font-size', getStyle(domElement, 'font-size'))
+    const emNodes = [...svgNode.querySelectorAll('[style*=em]')]
+    emNodes.forEach(emNode => {
+      emNode.style.fontSize = getStyle(emNode, 'font-size')
     })
 
     canvas = document.createElement('canvas')
@@ -24,10 +24,11 @@ export const svgToCanvas = (target) => {
     xml = xml.replace(/xmlns=\"http:\/\/www\.w3\.org\/2000\/svg\"/, '')
 
     // draw the SVG onto a canvas
-    canvg(canvas, xml)
-    $(canvas).insertAfter(this)
+    const v = await canvg(canvas, xml)
+    v.start()
+    svgNode.parentNode.insertAfter(svgNode, canvas)
     // hide the SVG element
-    $(this).attr('class', 'tempHide')
-    $(this).hide()
+    svgNode.classList.add('tempHide')
+    svgNode.classList.add('vti__hidden')
   })
 }

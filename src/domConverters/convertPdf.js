@@ -1,4 +1,3 @@
-import $ from 'jquery'
 import { jsPDF as JsPDF } from 'jsPDF'
 import { canvasExport, svgToCanvas, imgTo64 } from './helpers'
 import { getDate } from '../utils'
@@ -24,13 +23,13 @@ export const convertPdf = async (_options) => {
   }
 
   // Merge defaults and options, without modifying defaults
-  const _settings = $.extend({}, _defaults, _options)
+  const _settings = { ..._defaults, ..._options }
   // var _targetObject = $(_settings.target)[0]
   const heightList = []
   const widthList = []
   const pdfPageTarget = _settings.target + ' ' + _settings.pageTarget
   let counterI = 0
-  const listOfPages = $(pdfPageTarget)
+  const listOfPages = [...window.document.querySelectorAll(pdfPageTarget)]
   const nRendered = listOfPages.length
   const fileName = _settings.title + _settings.fileNameSuffix + '.pdf'
   let pageWidth = _settings.pageWidth
@@ -54,12 +53,14 @@ export const convertPdf = async (_options) => {
     pageWidth = pageWidth + (padding * 2)
   }
 
-  function getPageSizes () {
-    pageHeight = $(this).height() > pageHeight ? $(this).height() : pageHeight
-    heightList.push($(this).height())
+  function getPageSizes (domNode) {
+    const height = domNode.offsetHeight || domNode.clientHeight
+    pageHeight = height > pageHeight ? height : pageHeight
+    heightList.push(height)
 
-    pageWidth = $(this).width() > pageWidth ? $(this).width() : pageWidth
-    widthList.push($(this).width())
+    const width = domNode.offsetWidth || domNode.clientWidth
+    pageWidth = width > pageWidth ? width : pageWidth
+    widthList.push(width)
   }
 
   if (pageHeight < pageWidth) {
@@ -82,20 +83,28 @@ export const convertPdf = async (_options) => {
   })
 
   const setUp = () => {
-    $('body').addClass(_settings.captureActiveClass)
-    $('body').append('<div class="vti__progressCapture"><div class="vti__progressBar"></div></div>')
+    const bodyNode = window.document.querySelector('body')
+    bodyNode.classList.add(_settings.captureActiveClass)
+    bodyNode.appendChild('<div class="vti__progressCapture"><div class="vti__progressBar"></div></div>')
   }
 
   const cleanUp = () => {
     const container = document.querySelector(_settings.target)
     container.querySelectorAll('img').forEach((imageNode, index) => {
-      imageNode = srcList[index]
+      imageNode.src = srcList[index]
     })
-    $(_settings.target).find('.screenShotTempCanvas').remove()
-    $(_settings.target).find('.tempHide').show().removeClass('tempHide')
-    $('body').removeClass(_settings.captureActiveClass)
-    $('.vti__progressCapture').remove
-    $('body').removeClass(_settings.captureActiveClass)
+    const childrenCanvases = [...container.querySelectorAll('.screenShotTempCanvas')]
+    childrenCanvases.forEach(node => node.remove())
+
+    const childrenImg = [...container.querySelectorAll('.tempHide')]
+    childrenImg.forEach(node => {
+      node.classList.remove('tempHide')
+      node.classList.remove('vti__hidden')
+    })
+
+    window.document.querySelector('body').classList.remove(_settings.captureActiveClass)
+    window.document.querySelector('.vti__progressCapture').remove()
+    window.document.querySelector('body').classList.remove(_settings.captureActiveClass)
   }
 
   function assemblePdfPages (canvasObj) {
@@ -104,7 +113,7 @@ export const convertPdf = async (_options) => {
 
     pdf.addImage(canvasObj.toDataURL('image/jpeg'), 'JPEG', (padding / 2), (padding / 2), (maxW), (maxH))
     counterI++
-    $('.vti__progressBar').width(100 - ((counterI / nRendered) * 100) + '%')
+    window.document.querySelector('.vti__progressBar').style.width(100 - ((counterI / nRendered) * 100) + '%')
 
     if (counterI < nRendered) {
       pdf.addPage([pageWidth, pageHeight], pageOrientation)
