@@ -1,6 +1,18 @@
 {
   "name": "vue-2-img",
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "files": ["dist"],
+  "main": "dist/index.js",
+  "module": "dist/vue-2-img.es.js",
+  "browser": "dist/index.js",
+  "unpkg": "dist/index.js",
+  "style": "dist/vue-2-img.css",
+  "exports": {
+    ".": {
+      "import": "./dist/my-lib.es.js",
+      "require": "./dist/my-lib.umd.js"
+    }
+  },
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check build-only",
@@ -26,6 +38,7 @@
     "eslint-plugin-vue": "^9.0.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.5.1",
+    "sass": "^1.53.0",
     "typescript": "~4.7.4",
     "vite": "^2.9.12",
     "vue-tsc": "^0.38.1"

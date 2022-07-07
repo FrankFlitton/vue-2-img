@@ -15,7 +15,10 @@ export const svgToCanvas = (target: string) => {
     // canvg doesn't cope very well with em font sizes so find the calculated size in pixels and replace it in the element.
     const emNodes = [...svgNode.querySelectorAll("[style*=em]")];
     emNodes.forEach((emNode) => {
-      (emNode as HTMLElement).style.fontSize = getStyle(emNode, "font-size");
+      (emNode as HTMLElement).style.fontSize = getStyle(
+        emNode as HTMLElement,
+        "font-size"
+      );
     });
 
     canvas = document.createElement("canvas");
