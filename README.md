@@ -37,7 +37,12 @@ npm install --save vue-2-img
 ### Bundler (Webpack, Rollup)
 
 ```js
-import Vue2Img from 'vue-2-img'
+import * as vue2Img from 'vue-2-img'
+import 'vue-2-img/dist/vue-2-img.css'
+
+OR
+
+import { image, pdf } from 'vue-2-img'
 import 'vue-2-img/dist/vue-2-img.css'
 ```
 
@@ -58,7 +63,7 @@ import 'vue-2-img/dist/vue-2-img.css'
 
 ```js
 // Single Image
-vue2img().image()
+vue2img.image()
 
 // Overide Defaults
 let pdfImg = {
@@ -73,7 +78,7 @@ let pdfImg = {
 }
 
 // Multipage PDF
-vue2img().pdf(pdfConfig)
+vue2img.pdf(pdfConfig)
 
 // Overide Defaults
 let pdfConfig = {
@@ -94,7 +99,7 @@ let pdfConfig = {
       pageUnits: 'pt',
       returnAction: 'download' // blob, base64, clipboard, newWindow
 }
-vue2img().pdf(pdfConfig)
+vue2img.pdf(pdfConfig)
 ```
 
 ## License

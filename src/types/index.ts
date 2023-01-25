@@ -1,7 +1,8 @@
 export interface Vue2ImgWindow extends Window {
-  vue2img: () => {
+  vue2img: {
     image: (options: Vue2ImgImageSettings) => Promise<Base64String | Blob>;
     pdf: (options: Vue2ImgPdfSettings) => Promise<Base64String | Blob>;
+    version: string;
   };
 }
 
