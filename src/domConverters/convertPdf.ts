@@ -1,7 +1,7 @@
 import { jsPDF as JsPDF, type jsPDFOptions } from "jspdf";
 import { canvasExport, svgToCanvas, imgTo64 } from "./helpers";
 import { getDate } from "../utils";
-import type { Base64String, Vue2ImgPdfSettings } from "@/types";
+import type { Base64String, Vue2ImgPdfSettings } from "../types";
 
 export const convertPdf = async (
   _options: Vue2ImgPdfSettings

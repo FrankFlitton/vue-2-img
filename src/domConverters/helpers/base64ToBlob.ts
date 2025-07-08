@@ -1,4 +1,4 @@
-import type { Base64String } from "@/types";
+import type { Base64String } from "../../types";
 
 export const base64ToBlob = (base64: Base64String) => {
   const bytes = window.atob(base64);

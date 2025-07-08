@@ -1,4 +1,4 @@
-import type { Base64String, Vue2ImgImageSettings } from "@/types";
+import type { Base64String, Vue2ImgImageSettings } from "../types";
 import { base64ToBlob, canvasExport, imgTo64, svgToCanvas } from "./helpers";
 import { getDate } from "../utils";
 
