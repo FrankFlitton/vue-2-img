@@ -1,9 +1,9 @@
-.vti__progressCapture {
+:global(.vti__progressCapture) {
   opacity: 0;
   transition: opacity 0.5s ease;
 }
 
-.vti__active {
+:global(.vti__active) {
   .vti__progressCapture {
     position: fixed;
     top: 0;
@@ -64,10 +64,10 @@
   }
 }
 
-.vti__hidden {
+:global(.vti__hidden) {
   display: inherit !important;
 }
-.vti__show {
+:global(.vti__show) {
   display: none !important;
 }
 
