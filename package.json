@@ -2,6 +2,9 @@
   "name": "vue-2-img",
   "version": "1.0.0",
   "type": "module",
+  "engines": {
+    "node": "20.18.1"
+  },
   "files": [
     "dist"
   ],
